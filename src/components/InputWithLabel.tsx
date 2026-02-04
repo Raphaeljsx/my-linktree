@@ -1,27 +1,29 @@
 import { type inputProps } from "../types/Inputprops";
 
-export const Input = ({
+export const InputWithLabel = ({
   name,
   onChange,
   id,
   type,
   placeholder,
-  checked,
-  ...props
+  label,
+  labelClassname,
+  inputClassname,
 }: inputProps) => {
   return (
-    <label htmlFor={id} className="cursor-pointer">
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className={labelClassname}>
+        {label}
+      </label>
       <input
         type={type}
         id={id}
         value={name}
         onChange={onChange}
-        className="border border-neutral-400 py-2 px-3 rounded peer"
+        className={inputClassname}
         placeholder={placeholder}
-        {...props}
-        checked={checked}
         required
       />
-    </label>
+    </div>
   );
 };
