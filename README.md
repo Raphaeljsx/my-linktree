@@ -1,73 +1,115 @@
-# React + TypeScript + Vite
+# My Linktree
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação para criar e personalizar um perfil no estilo [Linktree](https://linktr.ee): você configura nome, redes sociais e links em um painel lateral e vê a prévia em tempo real em um mockup de celular.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologias utilizadas
 
-## React Compiler
+- **React 19** – interface e componentes
+- **TypeScript** – tipagem estática
+- **Vite 7** – build e servidor de desenvolvimento
+- **Tailwind CSS 4** – estilização (via `@tailwindcss/vite`)
+- **Zustand** – gerenciamento de estado global
+- **ESLint** – lint do código
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## O que foi feito no projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Funcionalidades
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Configuração do perfil**
+  - Nome, cargo e biografia
+  - Usuário do GitHub com botão “Buscar”
+  - Opções para exibir ou ocultar “seguidores” e “repositórios” na prévia
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Redes sociais**
+  - Campos para Instagram (IG), YouTube (YT), LinkedIn (IN) e X (Twitter)
+  - Cada rede pode ser preenchida ou removida (botão ✕)
+  - Prévia mostra “Sem redes cadastradas” quando nenhuma está preenchida
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Links personalizados**
+  - Adicionar vários links com **Label** (texto do botão) e **URL**
+  - Remover links individualmente
+  - URLs sem protocolo são normalizadas (ex.: `www.google.com.br` vira `https://www.google.com.br`) para abrir corretamente em nova aba
+
+- **Prévia em tempo real**
+  - Mockup de celular com avatar placeholder, nome, @usuário
+  - Estatísticas (seguidores/repos) conforme as opções marcadas
+  - Indicadores das redes e botões dos links personalizados
+
+### Estrutura do código
+
+- **Estado global** com Zustand em `src/store/useProfileStore.tsx` (perfil, redes, links e ações)
+- **Componentes** em `src/components/`: `Sidebar` (formulário de edição), `Content` (prévia), `Input`, `InputWithLabel`, `Textarea`
+- **Tipos** em `src/types/` para props de inputs e textarea
+- **App** apenas monta layout (Sidebar + Content), sem estado local
+
+---
+
+## Como rodar o projeto localmente
+
+### Pré-requisitos
+
+- **Node.js** (recomendado LTS, ex.: 18 ou 20)  
+  Verifique no terminal:
+  ```bash
+  node -v
+  npm -v
+  ```
+
+### Passo a passo
+
+1. **Clone o repositório** (ou acesse a pasta do projeto):
+   ```bash
+   git clone <url-do-repositorio>
+   cd my-linktree
+   ```
+
+2. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
+
+3. **Inicie o servidor de desenvolvimento**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Abra no navegador** a URL exibida no terminal (geralmente `http://localhost:5173`).
+
+### Outros comandos
+
+| Comando        | Descrição                          |
+|----------------|------------------------------------|
+| `npm run dev`  | Sobe o app em modo desenvolvimento |
+| `npm run build`| Gera build de produção             |
+| `npm run preview` | Serve o build localmente (preview) |
+| `npm run lint` | Roda o ESLint                      |
+
+---
+
+## Estrutura de pastas (resumo)
+
+```
+my-linktree/
+├── public/
+├── src/
+│   ├── components/    # Sidebar, Content, Input, InputWithLabel, Textarea
+│   ├── store/         # useProfileStore (Zustand)
+│   ├── types/         # Tipos (Input, Textarea, etc.)
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── index.html
+├── package.json
+├── vite.config.ts
+└── tsconfig*.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Licença
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Projeto de uso livre para estudo e portfólio.
