@@ -1,34 +1,6 @@
 import { InputWithLabel } from "./InputWithLabel";
-import { Textarea } from "./Textarea";
-import type { SocialLinks } from "../types/SocialLinks";
 import { Input } from "./Input";
-
-interface SidebarProps {
-  name: string;
-  role: string;
-  bio: string;
-  setName: (name: string) => void;
-  setRole: (role: string) => void;
-  setBio: (bio: string) => void;
-  links: Link[];
-  setLinks: (links: Link[]) => void;
-  githubUser: string;
-  setGithubUser: (v: string) => void;
-  showFollowers: boolean;
-  setShowFollowers: (v: boolean) => void;
-  showRepos: boolean;
-  setShowRepos: (v: boolean) => void;
-  socialLinks: SocialLinks;
-  setSocialLinks: (
-    v: SocialLinks | ((prevSocialLinks: SocialLinks) => SocialLinks)
-  ) => void;
-}
-
-export interface Link {
-  id: string;
-  url: string;
-  title: string;
-}
+import { useProfileStore, type Link, type SocialLinks } from "../store/useProfileStore";
 
 const SOCIAL_KEYS = [
   { key: "instagram" as const, label: "IG" },
@@ -37,7 +9,7 @@ const SOCIAL_KEYS = [
   { key: "x" as const, label: "X" },
 ] as const;
 
-const Sidebar = (props: SidebarProps) => {
+const Sidebar = () => {
   const {
     name,
     role,
@@ -55,7 +27,7 @@ const Sidebar = (props: SidebarProps) => {
     setShowRepos,
     socialLinks,
     setSocialLinks,
-  } = props;
+  } = useProfileStore();
 
   // Função para atualizar os links
   const handleLinkChange = (linkId: string, field: string, value: string) => {
@@ -101,7 +73,7 @@ const Sidebar = (props: SidebarProps) => {
             <InputWithLabel
               id="github-user"
               type="text"
-              placeholder="jovtrc"
+              placeholder="@seu-usuario"
               name={githubUser}
               onChange={(e) => setGithubUser(e.target.value)}
               label="Usuário do GitHub"
@@ -161,7 +133,7 @@ const Sidebar = (props: SidebarProps) => {
         <div className="grid grid-cols-2 gap-3">
           {SOCIAL_KEYS.map(({ key, label }) => (
             <div key={key} className="flex gap-2 items-center">
-              <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded bg-gray-200 text-xs font-semibold">
+              <span className="shrink-0 w-8 h-8 flex items-center justify-center rounded bg-gray-200 text-xs font-semibold">
                 {label}
               </span>
               <input
@@ -184,7 +156,7 @@ const Sidebar = (props: SidebarProps) => {
               <button
                 type="button"
                 onClick={() => clearSocial(key as keyof SocialLinks)}
-                className="flex-shrink-0 text-red-500 hover:text-red-700 p-1"
+                className="shrink-0 text-red-500 hover:text-red-700 p-1"
                 aria-label="Remover"
               >
                 ✕
@@ -192,10 +164,6 @@ const Sidebar = (props: SidebarProps) => {
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-        <h2 className="text-lg font-semibold mb-4">Links Personalizados</h2>
       </section>
 
       <section className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
@@ -249,3 +217,4 @@ const Sidebar = (props: SidebarProps) => {
   );
 };
 export default Sidebar;
+export type { Link }

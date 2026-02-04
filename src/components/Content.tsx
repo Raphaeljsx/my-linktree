@@ -1,34 +1,17 @@
-import type { Link } from "./Sidebar";
-import type { SocialLinks } from "../types/SocialLinks";
+import { useProfileStore, type Link, type SocialLinks } from "../store/useProfileStore";
 
-interface ContentProps {
-  name: string;
-  role: string;
-  bio: string;
-  githubUser: string;
-  showFollowers: boolean;
-  showRepos: boolean;
-  socialLinks: SocialLinks;
-  links: Link[];
-}
 
-const Content = ({
-  name,
-  role,
-  bio,
-  githubUser,
-  showFollowers,
-  showRepos,
-  socialLinks,
-  links,
-}: ContentProps) => {
+
+const Content = () => {
+const { name, role, bio, githubUser, showFollowers, showRepos, socialLinks, links } = useProfileStore();
+
   const hasSocial =
     socialLinks.instagram ||
     socialLinks.youtube ||
     socialLinks.linkedin ||
-    socialLinks.twitter;
+    socialLinks.x;
   const displayName = name || "Seu perfil";
-  const handle = githubUser ? `@${githubUser}` : "@jovtrc";
+  const handle = githubUser ? `@${githubUser}` : "@seu-usuario";
 
   const normalizeUrl = (url: string): string => {
     if (!url || url === "#") return "#";
@@ -38,7 +21,7 @@ const Content = ({
   };
 
   return (
-    <div className="flex-1 p-8 flex justify-center items-start">
+    <div className="flex-1 p-8 flex justify-center items-start mt-8">
       <section className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 w-full max-w-md">
         <h2 className="text-lg font-semibold mb-4">Prévia</h2>
         {/* Mockup celular */}
@@ -70,7 +53,7 @@ const Content = ({
                 {socialLinks.instagram && <span className="text-sm">IG</span>}
                 {socialLinks.youtube && <span className="text-sm">YT</span>}
                 {socialLinks.linkedin && <span className="text-sm">IN</span>}
-                {socialLinks.twitter && <span className="text-sm">X</span>}
+                {socialLinks.x && <span className="text-sm">X</span>}
               </div>
             )}
           </div>
